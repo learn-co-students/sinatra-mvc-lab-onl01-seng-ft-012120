@@ -7,7 +7,7 @@ class PigLatinizer
   def piglatinize(text)
     array = text.split(' ')
     latin = array.map do |word|
-      if word[0].match(/[aeiou]/i)
+      if word[0].match?(/[aeiou]/i)
         pigword = word + 'way'
       else
         t = word.split(/([aeiou].*)/i)
