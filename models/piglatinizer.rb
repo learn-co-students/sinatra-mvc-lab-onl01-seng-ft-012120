@@ -1,19 +1,30 @@
 class PigLatinizer
 
-    def piglatinize str 
-        letters = ('a'..'z').to_a #to array
-        vowels = ['a', 'e', 'i', 'o', 'u']
-        consonants = letters - vowels
-        
-        if vowels.include?(str[0])
-            str + 'ay"'
-        elsif consonants.include?(str[0]) && consonants.include?(str[1])
-            str[2..-1] + str[0..1] + 'ay'
-        elsif consonants.include?(str[0])
-            str[1..-1] + str[0] + 'ay'
+    attr_accessor :user_text
+
+    def piglatinize(user_text)
+        @user_text = user_text
+        piglatinize_text(@user_text.split(" "))
+    end
+
+    def piglatinize_word(word)
+        if word.downcase.chars.first.match(/[aeiou]/)
+            word + "way"
         else
-            str        
-        end    
-    end 
+            letters = word.chars
+            before_arr = []
+
+            letters.each { |x|
+                break if x.match?(/[aeiou]/)
+                before_arr << x
+            }
+            letters.shift(before_arr.length)
+            letters.join + before_arr.join + "ay"
+        end
+    end
+
+    def piglatinize_text(array)
+        array.map { |word| piglatinize_word(word)}.join(" ")
+    end
 
 end
